@@ -1,9 +1,4 @@
-##
-#
-# Copyright © 2019 Ruben Van Boxem
-#
-# Distributed under the Boost Software License, Version 1.0.
-# (See accompanying file LICENSE.md or copy at http://boost.o
+include_guard(GLOBAL)
 
 # Compiler options
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -19,10 +14,10 @@ elseif(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "-pedantic-errors -Wextra -Wconversion -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Werror ${CMAKE_CXX_FLAGS}")
   if(MINGW)
     link_libraries(-lpthread)
-    set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
   else()
     add_compile_options(-Wno-error=unused-command-line-argument)
     set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "-stdlib=libc++ ${CMAKE_EXE_LINKER_FLAGS}")
   endif()
 endif()
 

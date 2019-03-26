@@ -1,0 +1,81 @@
+environment:
+  matrix:
+  - TOOLCHAIN: "Visual Studio 2017 x86"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATOR: Visual Studio 15 2017
+    VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    VCVARSARG: x86
+    BUILD_ARGS: /m:4 /verbosity:minimal
+  - TOOLCHAIN: "Visual Studio 2017 x64"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATOR: Visual Studio 15 2017 Win64
+    VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    VCVARSARG: amd64
+    BUILD_ARGS: /m:4 /verbosity:minimal
+
+  # Mingw-w64
+  - TOOLCHAIN: "MinGW-w64 GCC"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATOR: Ninja
+    PACMAN_PACKAGES: "mingw-w64-x86_64-{headers,crt,gcc,ninja}"
+    PATH: C:\msys64\mingw64\bin;%PATH%
+    CMAKE_ARGS: -DGC_SECTIONS=OFF
+
+  # Clang targeting MSVC
+  - TOOLCHAIN: "Visual Studio 2017 Clang/LLVM 7.0.1"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATOR: Ninja
+    PACMAN_PACKAGES: "mingw-w64-x86_64-ninja"
+    PATH: C:\Program Files\LLVM\bin;C:\msys64\mingw64\bin;%PATH%
+    VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+    VCVARSARG: amd64
+    CMAKE_ARGS: -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
+    CLANG_URL: http://releases.llvm.org/7.0.1/LLVM-7.0.1-win64.exe
+
+  # Clang targeting mingw-w64
+  - TOOLCHAIN: "MinGW-w64 Clang"
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    GENERATOR: Ninja
+    PACMAN_PACKAGES: "mingw-w64-x86_64-{headers,crt,clang,ninja,binutils}"
+    PATH: C:\msys64\mingw64\bin;%PATH%
+    CMAKE_ARGS: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DGC_SECTIONS=OFF
+
+matrix:
+  allow_failures:
+    - TOOLCHAIN: "MinGW-w64 Clang"
+
+configuration:
+ - Debug
+ - Release
+
+shallow_clone: true
+
+install:
+ - if defined CLANG_URL appveyor DownloadFile %CLANG_URL% -FileName llvm-installer.exe
+ - if defined CLANG_URL START /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
+ - set CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2-win64-x64.zip"
+ - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+ - mkdir C:\cmake
+ - 7z x cmake.zip -oC:\cmake > nul
+ - set PATH=C:\cmake\cmake-3.13.2-win64-x64\bin;%PATH%
+
+clone_script:
+  - git clone -q --depth=1 --branch=%APPVEYOR_REPO_BRANCH% https://github.com/rubenvb/petl.git %APPVEYOR_BUILD_FOLDER%
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git checkout -qf %APPVEYOR_REPO_COMMIT%
+
+before_build:
+  - mkdir build
+  - cd build
+  - if defined VCVARS call "%VCVARS%" %VCVARSARG%
+  - if DEFINED PACMAN_PACKAGES C:\msys64\usr\bin\bash.exe -lc "yes | pacman --needed --noconfirm -Syu"
+  - if DEFINED PACMAN_PACKAGES C:\msys64\usr\bin\bash.exe -lc "yes | pacman --needed --noconfirm -Syu"
+  - if DEFINED PACMAN_PACKAGES C:\msys64\usr\bin\bash.exe -lc "yes | pacman --needed --noconfirm -S %PACMAN_PACKAGES%"
+  - set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
+  - cmake %CMAKE_ARGS% -G"%GENERATOR%" -DCMAKE_BUILD_TYPE="%CONFIGURATION%" .. || (echo CMAKEERROR && type CMakeFiles\CMakeError.log && echo CMAKEOUTPUT && type CMakeFiles\CMakeOutput.log && exit 1)
+
+build_script:
+  - cmake --build . --config %CONFIGURATION% -- %BUILD_ARGS%
+
+test_script:
+  - ctest -j99 --output-on-failure -C %CONFIGURATION%

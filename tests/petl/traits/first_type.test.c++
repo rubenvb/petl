@@ -22,22 +22,10 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_POINTEE_TYPE_H
-#define PETL_POINTEE_TYPE_H
+#include <petl/traits/first_type.h++>
 
-namespace petl::traits
-{
-  template<typename PointerToMemberType>
-  struct pointee_type;
+#include <type_traits>
 
-  template<typename ClassType, typename MemberType>
-  struct pointee_type<MemberType ClassType::*>
-  {
-    using type = MemberType;
-  };
+using petl::traits::first_type_t;
 
-  template<typename PointerToMemberType>
-  using pointee_type_t = typename pointee_type<PointerToMemberType>::type;
-}
-
-#endif
+static_assert(std::is_same_v<first_type_t<int, short>, int>);

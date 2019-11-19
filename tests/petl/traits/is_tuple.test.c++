@@ -22,22 +22,12 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_POINTEE_TYPE_H
-#define PETL_POINTEE_TYPE_H
+#include "petl/traits/is_tuple.h++"
 
-namespace petl::traits
-{
-  template<typename PointerToMemberType>
-  struct pointee_type;
+using petl::traits::is_tuple_v;
 
-  template<typename ClassType, typename MemberType>
-  struct pointee_type<MemberType ClassType::*>
-  {
-    using type = MemberType;
-  };
+static_assert(is_tuple_v<std::tuple<>>);
+static_assert(is_tuple_v<std::tuple<int>>);
+static_assert(is_tuple_v<std::tuple<int, short>>);
 
-  template<typename PointerToMemberType>
-  using pointee_type_t = typename pointee_type<PointerToMemberType>::type;
-}
-
-#endif
+static_assert(!is_tuple_v<int>);

@@ -25,7 +25,7 @@
 #ifndef PETL_FIRST_TYPE_H
 #define PETL_FIRST_TYPE_H
 
-namespace petl
+namespace petl::traits
 {
   template<typename FirstType, typename... Types>
   struct first_type

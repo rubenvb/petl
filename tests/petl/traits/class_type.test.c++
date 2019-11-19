@@ -22,22 +22,30 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_POINTEE_TYPE_H
-#define PETL_POINTEE_TYPE_H
+#include <petl/traits/class_type.h++>
 
-namespace petl::traits
+namespace
 {
-  template<typename PointerToMemberType>
-  struct pointee_type;
-
-  template<typename ClassType, typename MemberType>
-  struct pointee_type<MemberType ClassType::*>
+  struct A
   {
-    using type = MemberType;
+    int i;
+    [[maybe_unused]] void f();
   };
 
-  template<typename PointerToMemberType>
-  using pointee_type_t = typename pointee_type<PointerToMemberType>::type;
+  struct B : A
+  {
+    int ii;
+    [[maybe_unused]] void ff();
+  };
 }
 
-#endif
+using petl::traits::class_type_t;
+
+static_assert(std::is_same_v<class_type_t<decltype(&A::i)>, A>);
+static_assert(std::is_same_v<class_type_t<decltype(&A::f)>, A>);
+
+static_assert(std::is_same_v<class_type_t<decltype(&B::i)>, A>);
+static_assert(std::is_same_v<class_type_t<decltype(&B::f)>, A>);
+
+static_assert(std::is_same_v<class_type_t<decltype(&B::ii)>, B>);
+static_assert(std::is_same_v<class_type_t<decltype(&B::ff)>, B>);

@@ -22,22 +22,40 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_POINTEE_TYPE_H
-#define PETL_POINTEE_TYPE_H
+#include "petl/traits/pointee_type.h++"
 
-namespace petl::traits
+#include <type_traits>
+
+namespace
 {
-  template<typename PointerToMemberType>
-  struct pointee_type;
-
-  template<typename ClassType, typename MemberType>
-  struct pointee_type<MemberType ClassType::*>
+  struct A
   {
-    using type = MemberType;
+    virtual ~A() = default;
+
+    int i;
+    [[maybe_unused]] void f();
+    [[maybe_unused]] virtual void g();
   };
 
-  template<typename PointerToMemberType>
-  using pointee_type_t = typename pointee_type<PointerToMemberType>::type;
+  struct B : A
+  {
+    ~B() override = default;
+
+    int ii;
+    [[maybe_unused]] void ff();
+    [[maybe_unused]] void g() override;
+  };
 }
 
-#endif
+using petl::traits::pointee_type_t;
+
+static_assert(std::is_same_v<pointee_type_t<decltype(&A::i)>, int>);
+static_assert(std::is_same_v<pointee_type_t<decltype(&A::f)>, void()>);
+static_assert(std::is_same_v<pointee_type_t<decltype(&A::g)>, void()>);
+
+static_assert(std::is_same_v<pointee_type_t<decltype(&B::i)>, int>);
+static_assert(std::is_same_v<pointee_type_t<decltype(&B::f)>, void()>);
+static_assert(std::is_same_v<pointee_type_t<decltype(&B::g)>, void()>);
+
+static_assert(std::is_same_v<pointee_type_t<decltype(&B::ii)>, int>);
+static_assert(std::is_same_v<pointee_type_t<decltype(&B::ff)>, void()>);

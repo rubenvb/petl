@@ -25,10 +25,15 @@
 #ifndef PETL_CLASS_TYPE_H
 #define PETL_CLASS_TYPE_H
 
-namespace petl
+#include <type_traits>
+
+namespace petl::traits
 {
   template<typename PointerToMemberType>
-  struct class_type;
+  struct class_type
+  {
+    static_assert(std::is_member_pointer_v<PointerToMemberType>);
+  };
 
   template<typename ClassType, typename MemberType>
   struct class_type<MemberType ClassType::*>

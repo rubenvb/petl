@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  **/
 
-#include "test.h++"
+#include "../test.h++"
 
 #include <petl/view/sequence.h++>
 

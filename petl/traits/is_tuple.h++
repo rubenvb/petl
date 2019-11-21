@@ -27,7 +27,7 @@
 
 #include <tuple>
 
-namespace petl
+namespace petl::traits
 {
   template<typename T>
   struct is_tuple : std::false_type{};
@@ -37,7 +37,5 @@ namespace petl
   template<typename T>
   constexpr bool is_tuple_v = is_tuple<T>::value;
 }
-
-
 
 #endif

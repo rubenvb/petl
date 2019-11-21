@@ -123,14 +123,14 @@ namespace petl::utility
   }
 
   template<typename T,
-           typename = std::enable_if_t<!is_tuple_v<std::remove_cv_t<std::remove_reference_t<T>>>, void>>
+           typename = std::enable_if_t<!traits::is_tuple_v<std::remove_cv_t<std::remove_reference_t<T>>>, void>>
   constexpr T&& flatten(T&& non_tuple)
   {
     return std::forward<T>(non_tuple);
   }
 
   template<typename TupleType,
-           typename = std::enable_if_t<is_tuple_v<std::remove_cv_t<std::remove_reference_t<TupleType>>>, void>>
+           typename = std::enable_if_t<traits::is_tuple_v<std::remove_cv_t<std::remove_reference_t<TupleType>>>, void>>
   constexpr auto flatten(TupleType&& tuple)
   {
     using UnqualifiedTupleType = std::remove_cv_t<std::remove_reference_t<TupleType>>;

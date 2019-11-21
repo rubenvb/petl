@@ -45,9 +45,9 @@ namespace petl
   {
     static_assert((std::is_member_pointer_v<decltype(PointersToMembers)> && ...));
 
-    using sequenced_type = class_type_t<first_type_t<decltype(PointersToMembers)...>>;
+    using sequenced_type = traits::class_type_t<traits::first_type_t<decltype(PointersToMembers)...>>;
 
-    static_assert((std::is_same_v<sequenced_type, class_type_t<decltype(PointersToMembers)>> && ...));
+    static_assert((std::is_same_v<sequenced_type, traits::class_type_t<decltype(PointersToMembers)>> && ...));
 
     sequence(sequenced_type& object)
       : object{object}

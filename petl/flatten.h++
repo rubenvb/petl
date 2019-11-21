@@ -46,14 +46,14 @@ namespace petl
   }
 
   template<typename ...Ts,
-           std::enable_if_t<!(is_tuple<Ts>::value || ...), bool> = false>
+           std::enable_if_t<!(traits::is_tuple_v<Ts> || ...), bool> = false>
   constexpr decltype(auto) flatten(std::tuple<Ts...> t)
   {
       return t;
   }
 
   template<typename ...Ts,
-           std::enable_if_t<(is_tuple<Ts>::value || ...), bool> = false>
+           std::enable_if_t<(traits::is_tuple_v<Ts> || ...), bool> = false>
   constexpr decltype(auto) flatten(std::tuple<Ts...> t)
   {
       return std::apply([](auto&&...ts){ return flatten(std::tuple_cat(as_tuple(flatten(std::forward<decltype(ts)>(ts)))...)); }, t);

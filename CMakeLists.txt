@@ -63,6 +63,7 @@ set(petl_sources
     petl/traits/pointee_type.h++
     petl/utility/as.h++
     petl/utility/flatten.h++
+    petl/utility/overload.h++
     petl/utility/tuple_rank.h++
     petl/view/sequence.h++
    )

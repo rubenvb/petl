@@ -67,7 +67,7 @@ set(petl_sources
     petl/utility/tuple_rank.h++
     petl/view/sequence.h++
    )
-add_library(petl STATIC ${petl_sources})
+add_library(petl STATIC EXCLUDE_FROM_ALL ${petl_sources})
 set_target_properties(petl PROPERTIES LINKER_LANGUAGE CXX)
 
 # tests

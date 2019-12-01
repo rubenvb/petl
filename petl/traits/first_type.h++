@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_FIRST_TYPE_H
-#define PETL_FIRST_TYPE_H
+#ifndef PETL_TRAITS_FIRST_TYPE_H
+#define PETL_TRAITS_FIRST_TYPE_H
 
 namespace petl::traits
 {

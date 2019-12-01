@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_POINTEE_TYPE_H
-#define PETL_POINTEE_TYPE_H
+#ifndef PETL_TRAITS_POINTEE_TYPE_H
+#define PETL_TRAITS_POINTEE_TYPE_H
 
 namespace petl::traits
 {

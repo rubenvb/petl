@@ -27,8 +27,8 @@
  * Gets the total number of recursive elements in a tuple.
  */
 
-#ifndef PETL_TUPLE_RANK_H
-#define PETL_TUPLE_RANK_H
+#ifndef PETL_UTILITY_TUPLE_RANK_H
+#define PETL_UTILITY_TUPLE_RANK_H
 
 namespace petl::utility
 {

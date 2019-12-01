@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_IS_TUPLE_H
-#define PETL_IS_TUPLE_H
+#ifndef PETL_TRAITS_IS_TUPLE_H
+#define PETL_TRAITS_IS_TUPLE_H
 
 #include <tuple>
 

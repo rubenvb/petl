@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_CLASS_TYPE_H
-#define PETL_CLASS_TYPE_H
+#ifndef PETL_TRAITS_CLASS_TYPE_H
+#define PETL_TRAITS_CLASS_TYPE_H
 
 #include <type_traits>
 

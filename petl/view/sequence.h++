@@ -22,8 +22,8 @@
  * THE SOFTWARE.
  **/
 
-#ifndef PETL_SEQUENCE_H
-#define PETL_SEQUENCE_H
+#ifndef PETL_VIEW_SEQUENCE_H
+#define PETL_VIEW_SEQUENCE_H
 
 #include "petl/traits/class_type.h++"
 #include "petl/traits/first_type.h++"

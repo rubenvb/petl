@@ -64,6 +64,7 @@ set(petl_sources
     petl/traits/first_type.h++
     petl/traits/is_tuple.h++
     petl/traits/pointee_type.h++
+    petl/utility/as_tuple.h++
     petl/utility/overload.h++
     petl/utility/tuple_rank.h++
     petl/view/sequence.h++

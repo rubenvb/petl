@@ -94,13 +94,10 @@ add_custom_target(tests_shared SOURCES
                   compile_test.cmake
                  )
 
-
-runtime_test(petl flatten)
 compile_test(petl traits/class_type)
 compile_test(petl traits/first_type)
 compile_test(petl traits/is_tuple)
 compile_test(petl traits/pointee_type)
 runtime_test(petl view/sequence)
-compile_test(petl utility/flatten)
 compile_test(petl utility/overload)
 compile_test(petl utility/tuple_rank)

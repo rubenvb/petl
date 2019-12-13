@@ -55,14 +55,11 @@ add_custom_target(miscellaneous SOURCES
 # petl itself
 set(petl_sources
     petl/expression/sequence.h++
-    petl/flatten.h++
     petl/petl.h++
     petl/traits/class_type.h++
     petl/traits/first_type.h++
     petl/traits/is_tuple.h++
     petl/traits/pointee_type.h++
-    petl/utility/as.h++
-    petl/utility/flatten.h++
     petl/utility/overload.h++
     petl/utility/tuple_rank.h++
     petl/view/sequence.h++

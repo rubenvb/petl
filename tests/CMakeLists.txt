@@ -94,6 +94,7 @@ add_custom_target(tests_shared SOURCES
                   compile_test.cmake
                  )
 
+compile_test(petl expression/sequence)
 compile_test(petl traits/class_type)
 compile_test(petl traits/first_type)
 compile_test(petl traits/is_tuple)

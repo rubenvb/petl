@@ -55,6 +55,7 @@ add_custom_target(miscellaneous SOURCES
 # petl itself
 set(petl_sources
     petl/expression/sequence.h++
+    petl/no_attribute.h++
     petl/petl.h++
     petl/traits/class_type.h++
     petl/traits/first_type.h++

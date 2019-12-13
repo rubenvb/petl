@@ -60,6 +60,7 @@ set(petl_sources
     petl/expression/sequence.h++
     petl/no_attribute.h++
     petl/petl.h++
+    petl/traits/attribute_of.h++
     petl/traits/class_type.h++
     petl/traits/first_type.h++
     petl/traits/is_tuple.h++

@@ -54,6 +54,9 @@ add_custom_target(miscellaneous SOURCES
 
 # petl itself
 set(petl_sources
+    petl/expression/basic/double.h++
+    petl/expression/basic/int.h++
+    petl/expression/basic/literal.h++
     petl/expression/sequence.h++
     petl/no_attribute.h++
     petl/petl.h++

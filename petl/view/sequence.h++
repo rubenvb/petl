@@ -32,7 +32,7 @@
 #include <any>
 #include <tuple>
 
-namespace petl
+namespace petl::view
 {
   template<auto... PointersToMembers>
   struct sequence;

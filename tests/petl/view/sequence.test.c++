@@ -37,7 +37,7 @@ namespace
     std::string string;
   };
 
-  using A_sequence = petl::sequence<&A::integer, &A::string>;
+  using A_sequence = petl::view::sequence<&A::integer, &A::string>;
 }
 
 int main()
@@ -47,14 +47,14 @@ int main()
   A a{42, "42"};
   A_sequence sequence(a);
 
-  check(petl::get<0>(sequence) == 42);
-  check(petl::get<1>(sequence) == std::string{"42"});
+  check(petl::view::get<0>(sequence) == 42);
+  check(petl::view::get<1>(sequence) == std::string{"42"});
 
-  petl::get<0>(sequence) = 43;
-  petl::get<1>(sequence) = "43";
+  petl::view::get<0>(sequence) = 43;
+  petl::view::get<1>(sequence) = "43";
 
-  check(petl::get<0>(sequence) == 43);
-  check(petl::get<1>(sequence) == std::string{"43"});
+  check(petl::view::get<0>(sequence) == 43);
+  check(petl::view::get<1>(sequence) == std::string{"43"});
 
   return petl::test::exit_code;
 }

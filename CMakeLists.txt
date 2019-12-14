@@ -39,19 +39,6 @@ function(exclude_from_build)
   set_source_files_properties(${ARGV} PROPERTIES HEADER_FILE_ONLY TRUE)
 endfunction()
 
-# Miscellaneous files
-add_custom_target(miscellaneous SOURCES
-    README.md
-    LICENSE.md
-    .gitignore
-    appveyor.yml
-    .travis.yml
-    ci/setup_cmake.sh
-    ci/setup_libcxx.sh
-    ci/setup_ninja.sh
-    cmake/toolchain_options.cmake
-    )
-
 # petl itself
 set(petl_sources
     petl/expression/basic/double.h++
@@ -71,8 +58,25 @@ set(petl_sources
     petl/utility/tuple_rank.h++
     petl/view/sequence.h++
    )
-add_library(petl STATIC EXCLUDE_FROM_ALL ${petl_sources})
-set_target_properties(petl PROPERTIES LINKER_LANGUAGE CXX)
+add_library(petl INTERFACE)
+target_sources(petl INTERFACE ${petl_sources} ${miscellaneous})
+target_include_directories(petl INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+                                          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_compile_features(petl INTERFACE cxx_std_17)
+
+#until CMake and IDEs get along and show INTERFACE targets with their target_sources
+add_custom_target(petl_sources SOURCES
+    ${petl_sources}
+    README.md
+    LICENSE.md
+    .gitignore
+    appveyor.yml
+    .travis.yml
+    ci/setup_cmake.sh
+    ci/setup_libcxx.sh
+    ci/setup_ninja.sh
+    cmake/toolchain_options.cmake
+    )
 
 # tests
 enable_testing()

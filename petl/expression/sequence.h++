@@ -121,7 +121,7 @@ namespace petl::expression
   template<typename Expression>
   constexpr std::size_t sequence_length = 1;
   template<typename... Expressions>
-  constexpr std::size_t sequence_length<sequence<Expressions...>> = sizeof...(Expressions);
+  constexpr static std::size_t sequence_length<sequence<Expressions...>> = sizeof...(Expressions);
 
   template<typename Expression>
   struct is_sequence : std::false_type {};
@@ -133,6 +133,3 @@ namespace petl::expression
 }
 
 #endif
-
-//#include "sequence/flatten_sequence.h++"
-//#include "sequence/sequence_operator.h++"

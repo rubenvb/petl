@@ -64,9 +64,11 @@ target_include_directories(petl INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST
                                           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 target_compile_features(petl INTERFACE cxx_std_17)
 
+add_library(petl_sources EXCLUDE_FROM_ALL STATIC ${petl_sources})
+set_target_properties(petl_sources PROPERTIES LINKER_LANGUAGE CXX)
+
 #until CMake and IDEs get along and show INTERFACE targets with their target_sources
-add_custom_target(petl_sources SOURCES
-    ${petl_sources}
+add_custom_target(miscellaneous SOURCES
     README.md
     LICENSE.md
     .gitignore
